@@ -1173,8 +1173,8 @@ func TestMapDNSResponseSetsExpiryBasedOnTTL(t *testing.T) {
 		}
 	}
 
-	assertExpiresAt(ipOne, clock.Now().Add(300*time.Second).Add(defaultTTLExtra))
-	assertExpiresAt(ipTwo, clock.Now().Add(60*time.Second).Add(defaultTTLExtra))
+	assertExpiresAt(ipOne, clock.Now().Add(300*time.Second))
+	assertExpiresAt(ipTwo, clock.Now().Add(60*time.Second))
 
 	ipThree := netip.MustParseAddr("::1")
 	ipFour := netip.MustParseAddr("::2")
@@ -1194,8 +1194,8 @@ func TestMapDNSResponseSetsExpiryBasedOnTTL(t *testing.T) {
 	)
 	c.mapDNSResponse(dnsRespV6)
 
-	assertExpiresAt(ipThree, clock.Now().Add(301*time.Second).Add(defaultTTLExtra))
-	assertExpiresAt(ipFour, clock.Now().Add(61*time.Second).Add(defaultTTLExtra))
+	assertExpiresAt(ipThree, clock.Now().Add(301*time.Second))
+	assertExpiresAt(ipFour, clock.Now().Add(61*time.Second))
 }
 
 func TestNormalizedDNSNames(t *testing.T) {

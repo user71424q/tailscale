@@ -33,14 +33,13 @@ type addrAssignments struct {
 }
 
 const defaultExpiry = 48 * time.Hour
-const defaultTTLExtra = 10 * time.Minute
 
 func (a *addrAssignments) insert(as *addrs) error {
 	return a.insertWithExpiry(as, defaultExpiry)
 }
 
 func (a *addrAssignments) insertFromTTL(as *addrs, ttlSecs uint32) error {
-	expiry := (time.Duration(ttlSecs) * time.Second) + defaultTTLExtra
+	expiry := time.Duration(ttlSecs) * time.Second
 	min := time.Minute * 1
 	max := time.Hour * 72
 	if expiry < min {
