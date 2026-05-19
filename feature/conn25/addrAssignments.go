@@ -40,7 +40,16 @@ func (a *addrAssignments) insert(as *addrs) error {
 }
 
 func (a *addrAssignments) insertFromTTL(as *addrs, ttlSecs uint32) error {
-	return a.insertWithExpiry(as, (time.Duration(ttlSecs)*time.Second)+defaultTTLExtra)
+	expiry := (time.Duration(ttlSecs) * time.Second) + defaultTTLExtra
+	min := time.Minute * 1
+	max := time.Hour * 72
+	if expiry < min {
+		expiry = min
+	}
+	if expiry > max {
+		expiry = max
+	}
+	return a.insertWithExpiry(as, expiry)
 }
 
 func (a *addrAssignments) insertWithExpiry(as *addrs, d time.Duration) error {
